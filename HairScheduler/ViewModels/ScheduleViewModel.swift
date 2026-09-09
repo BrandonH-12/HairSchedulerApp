@@ -7,9 +7,7 @@
 
 import Foundation
 import SwiftUI
-
-import Foundation
-import SwiftUI
+import Combine
 
 /// Drives all schedule-related screens. Owns the shared repository and
 /// exposes the Use Cases as simple, view-friendly methods, translating
@@ -26,11 +24,11 @@ final class ScheduleViewModel: ObservableObject {
 
     let availableServices = Service.sampleServices
 
-    init(repository: AppointmentRepository = InMemoryAppointmentRepository()) {
-        self.repository = repository
-        self.scheduleAppointmentUseCase = ScheduleAppointmentUseCase(repository: repository)
-        self.cancelAppointmentUseCase = CancelAppointmentUseCase(repository: repository)
-        self.recordOutcomeUseCase = RecordAppointmentOutcomeUseCase(repository: repository)
+    init(repository: AppointmentRepository? = nil) {
+        self.repository = repository ?? InMemoryAppointmentRepository()
+        self.scheduleAppointmentUseCase = ScheduleAppointmentUseCase(repository: self.repository)
+        self.cancelAppointmentUseCase = CancelAppointmentUseCase(repository: self.repository)
+        self.recordOutcomeUseCase = RecordAppointmentOutcomeUseCase(repository: self.repository)
         refresh()
     }
 
