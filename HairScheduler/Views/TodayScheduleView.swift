@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TodayScheduleView: View {
     @ObservedObject var viewModel: ScheduleViewModel
+    @State private var showingNewBooking = false
 
     var body: some View {
         NavigationStack {
@@ -26,52 +27,18 @@ struct TodayScheduleView: View {
                 }
             }
             .navigationTitle("Today's Schedule")
-        }
-    }
-}
-
-struct AppointmentRow: View {
-    let appointment: Appointment
-
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(appointment.client.name)
-                    .font(.headline)
-                Text(appointment.service.name)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Text(appointment.bookingSource.rawValue)
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-            }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 4) {
-                Text(appointment.scheduledAt.formatted(date: .omitted, time: .shortened))
-                    .font(.headline)
-                if let outcome = appointment.outcome {
-                    Text(outcome.rawValue)
-                        .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 2)
-                        .background(badgeColor(for: outcome).opacity(0.2))
-                        .foregroundStyle(badgeColor(for: outcome))
-                        .clipShape(Capsule())
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingNewBooking = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-        }
-        .padding(.vertical, 4)
-    }
-
-    private func badgeColor(for outcome: AppointmentOutcome) -> Color {
-        switch outcome {
-        case .completed: return .green
-        case .noShow: return .red
-        case .cancelled: return .orange
+            .sheet(isPresented: $showingNewBooking) {
+                NewBookingView(viewModel: viewModel)
+            }
         }
     }
-}
-
-#Preview {
-    TodayScheduleView(viewModel: ScheduleViewModel())
 }
