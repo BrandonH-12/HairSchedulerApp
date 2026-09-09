@@ -10,6 +10,7 @@ import SwiftUI
 struct TodayScheduleView: View {
     @ObservedObject var viewModel: ScheduleViewModel
     @State private var showingNewBooking = false
+    @State private var selectedAppointment: Appointment?
 
     var body: some View {
         NavigationStack {
@@ -22,7 +23,12 @@ struct TodayScheduleView: View {
                     )
                 } else {
                     ForEach(viewModel.todaysAppointments) { appointment in
-                        AppointmentRow(appointment: appointment)
+                        Button {
+                            selectedAppointment = appointment
+                        } label: {
+                            AppointmentRow(appointment: appointment)
+                        }
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -38,6 +44,9 @@ struct TodayScheduleView: View {
             }
             .sheet(isPresented: $showingNewBooking) {
                 NewBookingView(viewModel: viewModel)
+            }
+            .sheet(item: $selectedAppointment) { appointment in
+                AppointmentDetailView(viewModel: viewModel, appointment: appointment)
             }
         }
     }
