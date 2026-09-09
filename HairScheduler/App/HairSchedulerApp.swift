@@ -8,10 +8,12 @@
 import SwiftUI
 
 @main
-struct HairSchedulerApp: App {
+struct HairScheduleApp: App {
+    @StateObject private var viewModel = ScheduleViewModel()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TodayScheduleView(viewModel: viewModel)
         }
     }
 }
