@@ -15,20 +15,34 @@ struct TodayScheduleView: View {
     var body: some View {
         NavigationStack {
             List {
-                if viewModel.todaysAppointments.isEmpty {
-                    ContentUnavailableView(
-                        "No Bookings Today",
-                        systemImage: "scissors",
-                        description: Text("Tap + to add a walk-in, phone booking, or friend.")
-                    )
-                } else {
-                    ForEach(viewModel.todaysAppointments) { appointment in
-                        Button {
-                            selectedAppointment = appointment
-                        } label: {
-                            AppointmentRow(appointment: appointment)
+                Section("Today"){
+                    if viewModel.todaysAppointments.isEmpty {
+                        ContentUnavailableView(
+                            "No Bookings Today",
+                            systemImage: "scissors",
+                            description: Text("Tap + to add a walk-in, phone booking, or friend.")
+                        )
+                    } else {
+                        ForEach(viewModel.todaysAppointments) { appointment in
+                            Button {
+                                selectedAppointment = appointment
+                            } label: {
+                                AppointmentRow(appointment: appointment)
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .buttonStyle(.plain)
+                    }
+                }
+                if !viewModel.upcomingAppointments.isEmpty {
+                    Section("Upcoming This Week"){
+                        ForEach(viewModel.upcomingAppointments){
+                            appointment in Button {
+                                selectedAppointment = appointment
+                            } label: {
+                                AppointmentRow(appointment: appointment, showDate: true)
+                            }
+                            .buttonStyle(.plain)
+                        }
                     }
                 }
             }
@@ -61,6 +75,7 @@ struct TodayScheduleView: View {
 
 struct AppointmentRow: View {
     let appointment: Appointment
+    var showDate: Bool = false
 
     var body: some View {
         HStack {
@@ -76,7 +91,7 @@ struct AppointmentRow: View {
             }
             Spacer()
             VStack(alignment: .trailing, spacing: 4) {
-                Text(appointment.scheduledAt.formatted(date: .omitted, time: .shortened))
+                Text(appointment.scheduledAt.formatted(date: showDate ? .abbreviated: .omitted, time: .shortened))
                     .font(.headline)
                 if let outcome = appointment.outcome {
                     Text(outcome.rawValue)
