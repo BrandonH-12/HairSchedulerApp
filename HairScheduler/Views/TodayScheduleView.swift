@@ -34,6 +34,13 @@ struct TodayScheduleView: View {
             }
             .navigationTitle("Today's Schedule")
             .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                        NavigationLink {
+                            HistoryView(viewModel: viewModel)
+                        } label: {
+                            Image(systemName: "clock")
+                        }
+                    }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingNewBooking = true
