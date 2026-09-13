@@ -12,6 +12,7 @@ struct AppointmentDetailView: View {
     let appointment: Appointment
     @Environment(\.dismiss) private var dismiss
     @State private var showingError = false
+    @State private var showingReschedule = false
 
     var body: some View {
         NavigationStack {
@@ -37,6 +38,9 @@ struct AppointmentDetailView: View {
                     }
                 } else {
                     Section("Actions") {
+                        Button("Move Appointment") {
+                            showingReschedule = true
+                            }
                         Button("Mark Completed") {
                             viewModel.recordOutcome(appointment, outcome: .completed)
                             finishIfNoError()
@@ -57,6 +61,9 @@ struct AppointmentDetailView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Close") { dismiss() }
                 }
+            }
+            .sheet(isPresented: $showingReschedule) {
+                RescheduleAppointmentView(viewModel: viewModel, appointment: appointment, onSaved: { dismiss() })
             }
             .alert("Couldn't Update Booking", isPresented: $showingError, presenting: viewModel.errorMessage) { _ in
                 Button("OK", role: .cancel) {}

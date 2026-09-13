@@ -21,6 +21,7 @@ final class ScheduleViewModel: ObservableObject {
     private let scheduleAppointmentUseCase: ScheduleAppointmentUseCase
     private let cancelAppointmentUseCase: CancelAppointmentUseCase
     private let recordOutcomeUseCase: RecordAppointmentOutcomeUseCase
+    private let rescheduleAppointmentUseCase: RescheduleAppointmentUseCase
 
     let availableServices = Service.sampleServices
 
@@ -29,6 +30,7 @@ final class ScheduleViewModel: ObservableObject {
         self.scheduleAppointmentUseCase = ScheduleAppointmentUseCase(repository: self.repository)
         self.cancelAppointmentUseCase = CancelAppointmentUseCase(repository: self.repository)
         self.recordOutcomeUseCase = RecordAppointmentOutcomeUseCase(repository: self.repository)
+        self.rescheduleAppointmentUseCase = RescheduleAppointmentUseCase(repository: self.repository)
         refresh()
     }
 
@@ -85,6 +87,17 @@ final class ScheduleViewModel: ObservableObject {
 
     func recordOutcome(_ appointment: Appointment, outcome: AppointmentOutcome) {
         let result = recordOutcomeUseCase.execute(appointmentID: appointment.id, outcome: outcome)
+        switch result {
+        case .success:
+            errorMessage = nil
+            refresh()
+        case .failure(let error):
+            errorMessage = error.errorDescription
+        }
+    }
+    
+    func rescheduleAppointment(_ appointment: Appointment, to newScheduledAt: Date) {
+        let result = rescheduleAppointmentUseCase.execute(appointmentID: appointment.id, newScheduledAt: newScheduledAt)
         switch result {
         case .success:
             errorMessage = nil
