@@ -41,10 +41,14 @@ Domain Models (Appointment, Client, Service, WorkingHours, AppointmentOutcome, B
 5. A cancelled or completed slot cannot be modified again.
 6. Rescheduling an appointment reuses the same clash and working-hours rules as booking, excluding the appointment's own current slot from the clash check.
 
+## Seed Data
+
+The app launches with a handful of sample appointments already loaded; a completed visit, a no-show, a cancellation, and one appointment from an hour before launch with no outcome recorded yet. This exists so History and the outcome-recording actions (Mark Completed / Mark No-Show) can be seen and tested immediately, without waiting for a freshly booked appointment's time to actually pass. Since RecordAppointmentOutcomeUseCase correctly refuses to record an outcome before an appointment's scheduled time. The seed data is inserted directly into the repository rather than through ScheduleAppointmentUseCase, since that Use Case's entire job is refusing to book anything in the past. Seed data representing a week of prior use is allowed to start already-past, the same way a real week of use would leave the schedule in this state. Unit tests are unaffected, since every test constructs its own plain, unseeded repository.
+
 ## Setup Instructions
 Built and tested with Xcode 26.4, targeting the iPhone 17 Pro Simulator.
 
-1. Clone the repository.
+1. Clone the repository, or download the zipped project. Then unzip the project.
 2. Open `HairScheduler.xcodeproj` in Xcode.
 3. Select an iOS Simulator (e.g. iPhone 17 Pro) as the run destination — not "External Display."
 4. Build and run — `Cmd+R` for the app, `Cmd+U` for the tests.
