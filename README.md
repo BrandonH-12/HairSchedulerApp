@@ -42,8 +42,13 @@ Domain Models (Appointment, Client, Service, WorkingHours, AppointmentOutcome, B
 6. Rescheduling an appointment reuses the same clash and working-hours rules as booking, excluding the appointment's own current slot from the clash check.
 
 ## Setup Instructions
+Built and tested with Xcode 26.4, targeting the iPhone 17 Pro Simulator.
 
 1. Clone the repository.
 2. Open `HairScheduler.xcodeproj` in Xcode.
 3. Select an iOS Simulator (e.g. iPhone 17 Pro) as the run destination — not "External Display."
 4. Build and run — `Cmd+R` for the app, `Cmd+U` for the tests.
+
+## Known Issues
+- On some machines, the app takes noticeably longer than expected (around 10 seconds) to render its first screen after Xcode reports the build has launched on the Simulator, even on repeated runs. This appears to be environmental (Simulator/Xcode overhead on this machine) rather than caused by app logic.
+- The first time a text field or the on-screen keyboard is used in a fresh Simulator session, there can be a brief delay or an unresponsive first tap before the keyboard is fully ready. This is a well-documented Simulator behaviour (the keyboard subsystem initializes lazily on first use) and does not recur for the rest of that session. 
