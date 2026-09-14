@@ -1,4 +1,7 @@
 # HairScheduler
+https://github.com/BrandonH-12/HairSchedulerApp.git
+https://github.com/BrandonH-12/HairSchedulerApp
+
 A booking and schedule manager for independent, home-based hairdressers and barbers. Designed to replace pen-paper diary booking with something more accessible.
 
 ## Domain Context
