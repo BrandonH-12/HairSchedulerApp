@@ -18,6 +18,7 @@
 
 /* Begin PBXFileReference section */
 		E62A22FE305663A800949404 /* HairSchedulerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HairSchedulerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E635BF0A3058119E008A10EF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E6EBA1C8304E837100269875 /* HairScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HairScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -55,6 +56,7 @@
 		E6EBA1BF304E837100269875 = {
 			isa = PBXGroup;
 			children = (
+				E635BF0A3058119E008A10EF /* README.md */,
 				E6EBA1CA304E837100269875 /* HairScheduler */,
 				E62A22FF305663A800949404 /* HairSchedulerTests */,
 				E6EBA1C9304E837100269875 /* Products */,
