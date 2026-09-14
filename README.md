@@ -11,21 +11,27 @@ What this app does not try to solve: Online client self-booking, payment process
 
 ## Architecture Summary
 SwiftUI Views (TodayScheduleView, NewBookingView, AppointmentDetailView, HistoryView, RescheduleAppointmentView)
-        ↓
+
+↓
+        
 ScheduleViewModel (MVVM)
-        ↓
+
+↓
+
 Use Case Layer
   - ScheduleAppointmentUseCase
   - CancelAppointmentUseCase
   - RecordAppointmentOutcomeUseCase
   - RescheduleAppointmentUseCase
-        ↓
+  
+↓
+
 Domain Models (Appointment, Client, Service, WorkingHours, AppointmentOutcome, BookingSource) + AppointmentRepository
 
-Domain Models (Models/) are named after real salon entities, each documented with the business rule it enforces.
-Use Cases (UseCases/) each encapsulate one real business operation, return Result<Success, TypedError>, and never leak Swift/technical error messages. Every error is written for the hairdresser, not a developer.
-Repository (Data/) abstracts storage behind a protocol; the in-memory implementation is a class because the schedule is genuinely shared, mutable state across every screen.
-ViewModel (ViewModels/) is the only thing that talks to Use Cases; Views never call a Use Case directly.
+- Domain Models (Models/) are named after real salon entities, each documented with the business rule it enforces.
+- Use Cases (UseCases/) each encapsulate one real business operation, return Result<Success, TypedError>, and never leak Swift/technical error messages. Every error is written for the hairdresser, not a developer.
+- Repository (Data/) abstracts storage behind a protocol; the in-memory implementation is a class because the schedule is genuinely shared, mutable state across every screen.
+- ViewModel (ViewModels/) is the only thing that talks to Use Cases; Views never call a Use Case directly.
 
 ## Key Business Rules
 1. No two non-cancelled appointments may occupy overlapping time, including each service's cleanup buffer.
