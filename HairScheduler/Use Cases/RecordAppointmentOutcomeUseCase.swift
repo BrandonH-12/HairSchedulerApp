@@ -7,6 +7,13 @@
 
 import Foundation
 
+
+/// Errors that can occur when recording how a past appointment actually went.
+///
+/// Who encounters this: the hairdresser, at the end of the day or the next
+/// time she opens the app, when she's going back through what happened —
+/// not in the moment of booking.
+
 enum RecordAppointmentOutcomeError: LocalizedError, Equatable {
     case appointmentNotFound
     case cannotRecordBeforeAppointmentTime
@@ -26,6 +33,13 @@ enum RecordAppointmentOutcomeError: LocalizedError, Equatable {
         }
     }
 }
+
+/// Records what actually happened to a past appointment --> completed or
+/// a no-show.
+///
+/// Business Rule: an outcome can't be recorded before the appointment's
+/// scheduled time has actually passed — the hairdresser can't mark someone
+/// a no-show for an appointment that hasn't happened yet.
 
 struct RecordAppointmentOutcomeUseCase {
     let repository: AppointmentRepository

@@ -6,6 +6,13 @@
 //
 
 import Foundation
+
+/// Stores today's bookings in memory for the lifetime of the app.
+///
+/// This is a `class`, not a `struct`, because the schedule is genuinely
+/// shared, mutable state — every screen that reads or writes an appointment
+/// needs to be looking at the same underlying diary, not a copy of it.
+
 final class InMemoryAppointmentRepository: AppointmentRepository {
     private var appointments: [UUID: Appointment] = [:]
 

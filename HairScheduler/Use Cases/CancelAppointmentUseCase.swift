@@ -7,6 +7,11 @@
 
 import Foundation
 
+/// Errors that can occur when cancelling an appointment.
+///
+/// Who encounters this: the hairdresser, when a client calls or messages to
+/// say they can't make it.
+
 enum CancelAppointmentError: LocalizedError, Equatable {
     case appointmentNotFound
     case outcomeAlreadyRecorded (existing: AppointmentOutcome)
@@ -20,6 +25,13 @@ enum CancelAppointmentError: LocalizedError, Equatable {
         }
     }
 }
+
+/// Cancels an upcoming appointment, freeing its slot for a new booking.
+///
+/// Business Rule: cancelling is distinct from recording a no-show, even
+/// though no fee applies to either. A cancellation means the client gave
+/// notice, a no-show means they didn't, and the difference is a pattern
+/// worth preserving even without a fee attached to it.
 
 struct CancelAppointmentUseCase {
     let repository: AppointmentRepository

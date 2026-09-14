@@ -7,6 +7,13 @@
 
 import Foundation
 
+/// Errors that can occur when booking a new appointment.
+///
+/// Who encounters this: the hairdresser, at the moment she's writing a new
+/// booking into the schedule — often with a walk-in standing in front of her
+/// or a client still on the phone, so the message has to be something she
+/// can act on immediately.
+
 enum ScheduleAppointmentError: LocalizedError, Equatable {
     case appointmentInThePast
     case outsideWorkingHours(opening: String, closing: String)
@@ -23,6 +30,15 @@ enum ScheduleAppointmentError: LocalizedError, Equatable {
         }
     }
 }
+
+
+/// Books a new appointment, enforcing the two rules a paper diary can't:
+/// no overlapping bookings, and nothing outside working hours.
+///
+/// Business Rule: a clash is checked including each service's cleanup
+/// buffer, not just its raw duration — two haircuts back-to-back with zero
+/// gap is still a clash in practice, even if the times don't technically
+/// overlap on paper.
 
 struct ScheduleAppointmentUseCase {
     let repository: AppointmentRepository
