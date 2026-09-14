@@ -29,7 +29,7 @@ struct Appointment: Identifiable, DomainAuditable {
         outcome: AppointmentOutcome? = nil,
         cancelledAt: Date? = nil,
         recordedAt: Date = Date(),
-        recordedByUserID: String = "Auntie"
+        recordedByUserID: String = "the stylist"
     ) {
         self.id = id
         self.client = client

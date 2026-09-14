@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct HairScheduleApp: App {
-    @StateObject private var viewModel = ScheduleViewModel()
+    @StateObject private var viewModel = ScheduleViewModel(repository: InMemoryAppointmentRepository.seeded())
 
     var body: some Scene {
         WindowGroup {
